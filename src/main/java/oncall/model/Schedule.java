@@ -34,73 +34,123 @@ public class Schedule {
         // 마지막 날까지 반복
         while (currentDay <= startMonth.getLastDay()) {
             // 휴일이라면
-
             if (currentWeek.isDayOff()) {
-                todayWorker = dayOffWorker.getWorkers().get(dayOffWorker.currentIndex);
-                // 연속근무라 스킵할 경우
-                if (todayWorker.equals(yesterdayWorker)) {
-                    dayOffWorker.plusCurrentIndex();
-                    todayWorker = dayOffWorker.getWorkers().get(dayOffWorker.currentIndex);
-                    dayOffWorker.setSkip();
-                    dayOffWorker.minusCurrentIndex();
-                    scheduleOutputDtos.add(
-                            new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, false,
-                                    todayWorker));
-                    yesterdayWorker = todayWorker;
-                } else {
-                    dayOffWorker.plusCurrentIndex();
-                    scheduleOutputDtos.add(
-                            new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, false,
-                                    todayWorker));
-                    yesterdayWorker = todayWorker;
-                }
+                yesterdayWorker = generateDayOffSchedule(dayOffWorker, yesterdayWorker, currentWeek, currentDay,
+                        scheduleOutputDtos);
             }
             // 평일이라면
             if (!currentWeek.isDayOff()) {
-                // 공휴일이라면
-                if (HoliDay.isHoliday(startMonth.getMonth(), currentDay)) {
-                    todayWorker = dayOffWorker.getWorkers().get(dayOffWorker.currentIndex);
-                    if (todayWorker.equals(yesterdayWorker)) {
-                        dayOffWorker.plusCurrentIndex();
-                        todayWorker = dayOffWorker.getWorkers().get(dayOffWorker.currentIndex);
-                        dayOffWorker.setSkip();
-                        dayOffWorker.minusCurrentIndex();
-                        scheduleOutputDtos.add(
-                                new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, true,
-                                        todayWorker));
-                        yesterdayWorker = todayWorker;
-                    } else {
-                        dayOffWorker.plusCurrentIndex();
-                        scheduleOutputDtos.add(
-                                new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, true,
-                                        todayWorker));
-                        yesterdayWorker = todayWorker;
-                    }
-                }
-                // 공휴일이 아니라면
-                else {
-                    todayWorker = weekWorker.getWorkers().get(weekWorker.currentIndex);
-                    if (todayWorker.equals(yesterdayWorker)) {
-                        weekWorker.plusCurrentIndex();
-                        todayWorker = weekWorker.getWorkers().get(weekWorker.currentIndex);
-                        weekWorker.setSkip();
-                        weekWorker.minusCurrentIndex();
-                        scheduleOutputDtos.add(
-                                new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, false,
-                                        todayWorker));
-                        yesterdayWorker = todayWorker;
-                    } else {
-                        weekWorker.plusCurrentIndex();
-                        scheduleOutputDtos.add(
-                                new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, false,
-                                        todayWorker));
-                        yesterdayWorker = todayWorker;
-                    }
-                }
+                yesterdayWorker = generateWeekSchecule(weekWorker, dayOffWorker, yesterdayWorker, currentWeek,
+                        currentDay,
+                        scheduleOutputDtos);
             }
             currentWeek = Week.nextWeek(currentWeek);
             currentDay++;
         }
         return scheduleOutputDtos;
+    }
+
+    private String generateDayOffSchedule(DayOffWorker dayOffWorker, String yesterdayWorker, Week currentWeek,
+                                          int currentDay,
+                                          List<ScheduleOutputDto> scheduleOutputDtos) {
+        String todayWorker;
+        todayWorker = dayOffWorker.getWorkers().get(dayOffWorker.currentIndex);
+        // 연속근무 스킵할 경우
+        if (todayWorker.equals(yesterdayWorker)) {
+            todayWorker = createDayOffSkipSchedule(dayOffWorker, currentWeek, currentDay, scheduleOutputDtos);
+            yesterdayWorker = todayWorker;
+        } else {
+            createDayOffSchedule(dayOffWorker, todayWorker, currentWeek, currentDay, scheduleOutputDtos);
+            yesterdayWorker = todayWorker;
+        }
+        return yesterdayWorker;
+    }
+
+    private String generateWeekSchecule(WeekWorker weekWorker, DayOffWorker dayOffWorker, String yesterdayWorker,
+                                        Week currentWeek,
+                                        int currentDay, List<ScheduleOutputDto> scheduleOutputDtos) {
+        if (HoliDay.isHoliday(startMonth.getMonth(), currentDay)) {
+            String todayWorker = dayOffWorker.getWorkers().get(dayOffWorker.currentIndex);
+            if (todayWorker.equals(yesterdayWorker)) {
+                todayWorker = createHolidaySkipSchedule(dayOffWorker, currentWeek, currentDay,
+                        scheduleOutputDtos);
+                yesterdayWorker = todayWorker;
+            } else {
+                createHolidaySchedule(dayOffWorker, todayWorker, currentWeek, currentDay, scheduleOutputDtos);
+                yesterdayWorker = todayWorker;
+            }
+        }
+        // 공휴일이 아니라면
+        else {
+            String todayWorker = weekWorker.getWorkers().get(weekWorker.currentIndex);
+            if (todayWorker.equals(yesterdayWorker)) {
+                todayWorker = createWeekStipSchedule(weekWorker, currentWeek, currentDay, scheduleOutputDtos);
+                yesterdayWorker = todayWorker;
+            } else {
+                createWeekSchedule(weekWorker, todayWorker, currentWeek, currentDay, scheduleOutputDtos);
+                yesterdayWorker = todayWorker;
+            }
+        }
+        return yesterdayWorker;
+    }
+
+    private void createWeekSchedule(WeekWorker weekWorker, String todayWorker, Week currentWeek, int currentDay,
+                                    List<ScheduleOutputDto> scheduleOutputDtos) {
+        weekWorker.plusCurrentIndex();
+        scheduleOutputDtos.add(
+                new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, false,
+                        todayWorker));
+    }
+
+    private String createWeekStipSchedule(WeekWorker weekWorker, Week currentWeek, int currentDay,
+                                          List<ScheduleOutputDto> scheduleOutputDtos) {
+        weekWorker.plusCurrentIndex();
+        String todayWorker = weekWorker.getWorkers().get(weekWorker.currentIndex);
+        weekWorker.setSkip();
+        weekWorker.minusCurrentIndex();
+        scheduleOutputDtos.add(
+                new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, false,
+                        todayWorker));
+        return todayWorker;
+    }
+
+    private void createHolidaySchedule(DayOffWorker dayOffWorker, String todayWorker, Week currentWeek, int currentDay,
+                                       List<ScheduleOutputDto> scheduleOutputDtos) {
+        dayOffWorker.plusCurrentIndex();
+        scheduleOutputDtos.add(
+                new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, true,
+                        todayWorker));
+    }
+
+    private String createHolidaySkipSchedule(DayOffWorker dayOffWorker, Week currentWeek, int currentDay,
+                                             List<ScheduleOutputDto> scheduleOutputDtos) {
+        dayOffWorker.plusCurrentIndex();
+        String todayWorker = dayOffWorker.getWorkers().get(dayOffWorker.currentIndex);
+        dayOffWorker.setSkip();
+        dayOffWorker.minusCurrentIndex();
+        scheduleOutputDtos.add(
+                new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, true,
+                        todayWorker));
+        return todayWorker;
+    }
+
+    private void createDayOffSchedule(DayOffWorker dayOffWorker, String todayWorker, Week currentWeek, int currentDay,
+                                      List<ScheduleOutputDto> scheduleOutputDtos) {
+        dayOffWorker.plusCurrentIndex();
+        scheduleOutputDtos.add(
+                new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, false,
+                        todayWorker));
+    }
+
+    private String createDayOffSkipSchedule(DayOffWorker dayOffWorker, Week currentWeek, int currentDay,
+                                            List<ScheduleOutputDto> scheduleOutputDtos) {
+        dayOffWorker.plusCurrentIndex();
+        String todayWorker = dayOffWorker.getWorkers().get(dayOffWorker.currentIndex);
+        dayOffWorker.setSkip();
+        dayOffWorker.minusCurrentIndex();
+        scheduleOutputDtos.add(
+                new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, false,
+                        todayWorker));
+        return todayWorker;
     }
 }
