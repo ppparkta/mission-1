@@ -25,10 +25,14 @@ public abstract class Worker {
         if (skip) {
             sumDay = 2;
         }
-        if ((currentIndex + sumDay) % workers.size() - 1 == 0) {
+        if (currentIndex != 0 && (currentIndex + sumDay) % workers.size() == 0) {
             currentIndex = 0;
         } else {
-            currentIndex = currentIndex + sumDay;
+            if (currentIndex + sumDay < workers.size() - 1) {
+                currentIndex = currentIndex + sumDay;
+            } else {
+                currentIndex = (currentIndex + sumDay) % workers.size();
+            }
         }
         if (skip) {
             skip = false;

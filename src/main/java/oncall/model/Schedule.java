@@ -46,11 +46,13 @@ public class Schedule {
                     scheduleOutputDtos.add(
                             new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, false,
                                     todayWorker));
+                    yesterdayWorker = todayWorker;
                 } else {
                     dayOffWorker.plusCurrentIndex();
                     scheduleOutputDtos.add(
                             new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, false,
                                     todayWorker));
+                    yesterdayWorker = todayWorker;
                 }
             }
             // 평일이라면
@@ -66,11 +68,13 @@ public class Schedule {
                         scheduleOutputDtos.add(
                                 new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, true,
                                         todayWorker));
+                        yesterdayWorker = todayWorker;
                     } else {
                         dayOffWorker.plusCurrentIndex();
                         scheduleOutputDtos.add(
                                 new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, true,
                                         todayWorker));
+                        yesterdayWorker = todayWorker;
                     }
                 }
                 // 공휴일이 아니라면
@@ -84,17 +88,18 @@ public class Schedule {
                         scheduleOutputDtos.add(
                                 new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, false,
                                         todayWorker));
+                        yesterdayWorker = todayWorker;
                     } else {
                         weekWorker.plusCurrentIndex();
                         scheduleOutputDtos.add(
                                 new ScheduleOutputDto(startMonth.getMonth(), currentDay, currentWeek, false,
                                         todayWorker));
+                        yesterdayWorker = todayWorker;
                     }
                 }
-                yesterdayWorker = todayWorker;
-                currentWeek = Week.nextWeek(currentWeek);
-                currentDay++;
             }
+            currentWeek = Week.nextWeek(currentWeek);
+            currentDay++;
         }
         return scheduleOutputDtos;
     }
