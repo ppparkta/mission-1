@@ -17,4 +17,9 @@ public class WorkPermutation {
         WorkPermutation permutation = new WorkPermutation(workers, workType);
         return permutation;
     }
+
+    public List<Worker> getWorkers() {
+        return workers;
+    }
 }
+

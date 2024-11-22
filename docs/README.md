@@ -36,4 +36,10 @@
 
 ### WorkPermutation
 
-- Worker 타입  일급 컬렉션
+- Worker 리스트와 평일, 공휴일 워커 식별 정보를 갖고 있음 
+
+---
+
+### WorkScheduleController 
+
+- 전체 근무자 스케줄링을 담당하는 컨트롤러 

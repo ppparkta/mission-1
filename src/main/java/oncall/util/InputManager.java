@@ -36,8 +36,8 @@ public class InputManager {
 
     private Date dateParser(String inputStartDate) {
         String[] inputStrings = inputStartDate.split(",");
-        String inputMonth = inputStrings[0];
-        String inputDay = inputStrings[1];
+        String inputMonth = inputStrings[0].trim();
+        String inputDay = inputStrings[1].trim();
         int month = Integer.parseInt(inputMonth);
         String day = inputDay;
         return Date.asDate(month, day);

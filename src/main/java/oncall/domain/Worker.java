@@ -21,4 +21,8 @@ public class Worker {
         }
         return true;
     }
+
+    public String getName() {
+        return name;
+    }
 }
