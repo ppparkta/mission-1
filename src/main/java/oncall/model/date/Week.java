@@ -1,4 +1,4 @@
-package oncall.model;
+package oncall.model.date;
 
 import oncall.constant.ExceptionMessage;
 

@@ -1,7 +1,7 @@
 package oncall.dto;
 
 import oncall.constant.ExceptionMessage;
-import oncall.model.Week;
+import oncall.model.date.Week;
 
 public record ScheduleInputDto(int month, String week) {
     public static ScheduleInputDto of(String month, String week) {

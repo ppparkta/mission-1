@@ -1,4 +1,4 @@
-package oncall.constant;
+package oncall.model.date;
 
 public enum HoliDay {
     신정(1, 1),

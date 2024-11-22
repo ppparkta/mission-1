@@ -2,10 +2,11 @@ package oncall.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import oncall.constant.Calendar;
 import oncall.constant.ExceptionMessage;
-import oncall.constant.HoliDay;
 import oncall.dto.ScheduleOutputDto;
+import oncall.model.date.Calendar;
+import oncall.model.date.HoliDay;
+import oncall.model.date.Week;
 
 public class Schedule {
     private final Calendar startMonth;
