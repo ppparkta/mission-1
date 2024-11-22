@@ -40,6 +40,7 @@ public class InputManager {
         String inputDay = inputStrings[1].trim();
         int month = Integer.parseInt(inputMonth);
         String day = inputDay;
+        if (month <= 0) {throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");}
         return Date.asDate(month, day);
     }
 
