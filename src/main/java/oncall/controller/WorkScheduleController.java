@@ -3,6 +3,7 @@ package oncall.controller;
 import oncall.domain.Date;
 import oncall.domain.Day;
 import oncall.domain.WorkPermutation;
+import oncall.domain.Worker;
 import oncall.util.InputManager;
 
 import java.util.List;
@@ -36,6 +37,10 @@ public class WorkScheduleController {
             boolean isHoliday = pointDate.isHoliday(i);
             if (isHoliday) {
                 String workerName = holidayPermutation.getWorkers().get(holidayTurnPoint).getName();
+                if (workerName.equals(yesterDayWorkername)) {
+                   holidayPermutation.workkerChange(holidayTurnPoint);
+                   workerName = holidayPermutation.getWorkers().get(holidayTurnPoint).getName();
+                }
                 holidayTurnPoint++;
                 if (pointDate.isWeekend(i)){
                     System.out.println(pointDate.getMonth()+ "월 " + i +"일 " + Day.getDayString(dayPoint) + " " + workerName);
@@ -46,16 +51,23 @@ public class WorkScheduleController {
                 if (holidayPermutation.getWorkers().size()-1 == holidayTurnPoint) {holidayTurnPoint = 0;}
                 dayPoint ++;
                 if (dayPoint == 7) {dayPoint = 0;}
-
+                yesterDayWorkername = workerName;
             }
             if (!isHoliday) {
                 String workerName = weekPermutation.getWorkers().get(weekTurnPoint).getName();
+                if (workerName.equals(yesterDayWorkername)) {
+                    weekPermutation.workkerChange(holidayTurnPoint);
+                    workerName = weekPermutation.getWorkers().get(holidayTurnPoint).getName();
+                }
                 weekTurnPoint++;
                 System.out.println(pointDate.getMonth()+ "월 " + i +"일 " + Day.getDayString(dayPoint) + " " + workerName);
                 if (weekPermutation.getWorkers().size()-1 == weekTurnPoint) {weekTurnPoint = 0;}
                 dayPoint ++;
                 if (dayPoint == 7) {dayPoint = 0;}
+                yesterDayWorkername = workerName;
+
             }
+
 
         }
     }
