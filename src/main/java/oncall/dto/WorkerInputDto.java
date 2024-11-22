@@ -11,7 +11,7 @@ public record WorkerInputDto(List<String> members) {
         }
 
         for (String worker : workers) {
-            if (workers.length > 5) {
+            if (worker.length() > 5) {
                 throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT.getMessage());
             }
         }

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DayOffWorker {
-    List<String> dayOffWorkers = new ArrayList<>();
+    List<String> workers = new ArrayList<>();
 
-    public void validate() {
-
+    public DayOffWorker(List<String> workers) {
+        this.workers = workers;
     }
 }

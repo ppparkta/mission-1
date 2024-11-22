@@ -1,9 +1,13 @@
 package oncall.controller;
 
 import java.util.List;
+import oncall.constant.WorkerConfig;
 import oncall.dto.ScheduleInputDto;
 import oncall.dto.WorkerInputDto;
+import oncall.model.DayOffWorker;
 import oncall.model.Schedule;
+import oncall.model.WeekWorker;
+import oncall.model.Worker;
 import oncall.view.InputView;
 
 public class WorkController {
@@ -18,8 +22,9 @@ public class WorkController {
         ScheduleInputDto scheduleInputDto = inputHandler.getSchedule();
         Schedule schedule = new Schedule(scheduleInputDto.month(), scheduleInputDto.week());
 
-        // 평일 비상 근무 순번대로 사원 닉네임을 입력하세요> 준팍,도밥,고니,수아,루루,글로,솔로스타,우코,슬링키,참새,도리
-        List<WorkerInputDto> workersInputDto = inputHandler.getWorker();
+        List<WorkerInputDto> workersInputDtos = inputHandler.getWorker();
+        WeekWorker weekWorker = new WeekWorker(workersInputDtos.get(WorkerConfig.WEEK.getValue()).members());
+        DayOffWorker dayOffWorker = new DayOffWorker(workersInputDtos.get(WorkerConfig.DAY_OFF.getValue()).members());
 
         // 출력
     }

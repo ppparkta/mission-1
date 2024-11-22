@@ -1,8 +1,12 @@
 package oncall.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Worker {
-    Set<String> workers = new HashSet<>();
+    List<String> workers = new ArrayList<>();
+
+    public Worker(List<String> workers) {
+        this.workers = workers;
+    }
 }

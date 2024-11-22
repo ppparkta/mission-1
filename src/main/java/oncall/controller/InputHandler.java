@@ -41,7 +41,8 @@ public class InputHandler {
                 inputValue = inputView.getValue();
                 workerInputDtos.add(InputParser.parseWorker(inputValue));
 
-                validateWorkerInput(workerInputDtos);
+                validateWorkerInput(workerInputDtos.get(WorkerConfig.WEEK.getValue()),
+                        workerInputDtos.get(WorkerConfig.DAY_OFF.getValue()));
                 return workerInputDtos;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -49,10 +50,7 @@ public class InputHandler {
         }
     }
 
-    private void validateWorkerInput(List<WorkerInputDto> workerInputDtos) {
-        WorkerInputDto weekWorkerInputDto = workerInputDtos.get(WorkerConfig.WEEK.getValue());
-        WorkerInputDto dayOffWorkerInputDto = workerInputDtos.get(WorkerConfig.DAY_OFF.getValue());
-
+    private void validateWorkerInput(WorkerInputDto weekWorkerInputDto, WorkerInputDto dayOffWorkerInputDto) {
         // 두 배열의 크기가 같은지 확인
         if (weekWorkerInputDto.getSize() != dayOffWorkerInputDto.getSize()) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT.getMessage());
@@ -64,6 +62,4 @@ public class InputHandler {
             }
         }
     }
-
-
 }

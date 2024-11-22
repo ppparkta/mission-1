@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeekWorker {
-    List<String> weekWorkers = new ArrayList<>();
+    List<String> workers = new ArrayList<>();
 
-    public void validate() {
-
+    public WeekWorker(List<String> workers) {
+        this.workers = workers;
     }
 }
