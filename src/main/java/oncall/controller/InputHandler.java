@@ -48,11 +48,9 @@ public class InputHandler {
     }
 
     private void validateWorkerInput(WorkerInputDto weekWorkerInputDto, WorkerInputDto dayOffWorkerInputDto) {
-        // 두 배열의 크기가 같은지 확인
         if (weekWorkerInputDto.getSize() != dayOffWorkerInputDto.getSize()) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT.getMessage());
         }
-        // 평일 근무자가 모두 휴일 근무에 있는지 확인
         for (String weekWorker : weekWorkerInputDto.members()) {
             if (!WorkerInputDto.isIncludeDayOff(weekWorker, dayOffWorkerInputDto)) {
                 throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT.getMessage());

@@ -6,21 +6,7 @@ import oncall.constant.ExceptionMessage;
 
 public record WorkerInputDto(List<String> members) {
     public static WorkerInputDto from(String[] workers) {
-        if (workers.length < 5 || workers.length > 35) {
-            throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT.getMessage());
-        }
-
-        for (String worker : workers) {
-            if (worker.length() > 5) {
-                throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT.getMessage());
-            }
-        }
-
-        List<String> distinctWorkers = Arrays.stream(workers).distinct().toList();
-        if (workers.length != distinctWorkers.size()) {
-            throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT.getMessage());
-        }
-
+        validate(workers);
         return new WorkerInputDto(Arrays.stream(workers).toList());
     }
 
@@ -35,5 +21,20 @@ public record WorkerInputDto(List<String> members) {
             }
         }
         return false;
+    }
+
+    private static void validate(String[] workers) {
+        if (workers.length < 5 || workers.length > 35) {
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT.getMessage());
+        }
+        for (String worker : workers) {
+            if (worker.length() > 5) {
+                throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT.getMessage());
+            }
+        }
+        List<String> distinctWorkers = Arrays.stream(workers).distinct().toList();
+        if (workers.length != distinctWorkers.size()) {
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT.getMessage());
+        }
     }
 }

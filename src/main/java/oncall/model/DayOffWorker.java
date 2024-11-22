@@ -9,6 +9,4 @@ public class DayOffWorker extends Worker {
         }
         currentIndex = 0;
     }
-
-
 }

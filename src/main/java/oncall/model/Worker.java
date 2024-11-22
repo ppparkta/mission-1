@@ -16,10 +16,6 @@ public abstract class Worker {
         this.skip = true;
     }
 
-    protected void setCurrentIndex(int index) {
-        this.currentIndex = index;
-    }
-
     protected void plusCurrentIndex() {
         int sumDay = 1;
         if (skip) {

@@ -1,6 +1,5 @@
 package oncall.model;
 
-import java.util.Optional;
 import oncall.constant.ExceptionMessage;
 
 public enum Week {
@@ -22,10 +21,6 @@ public enum Week {
 
     public String getWeek() {
         return week;
-    }
-
-    public int getLocalDateTimeWeek() {
-        return localDateTimeWeek;
     }
 
     public static Week of(String week) {
