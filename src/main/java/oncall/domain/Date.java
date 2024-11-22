@@ -61,6 +61,13 @@ public class Date {
         return false;
     }
 
+    public boolean isWeekend(int dayNum) {
+        if (this.day == Day.SATURDAY || this.day == Day.SUNDAY) {
+            return true;
+        }
+        return false;
+    }
+
 
 
 

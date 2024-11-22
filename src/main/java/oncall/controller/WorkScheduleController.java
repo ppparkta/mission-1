@@ -37,7 +37,12 @@ public class WorkScheduleController {
             if (isHoliday) {
                 String workerName = holidayPermutation.getWorkers().get(holidayTurnPoint).getName();
                 holidayTurnPoint++;
-                System.out.println(pointDate.getMonth()+ "월 " + i +"일 " + Day.getDayString(dayPoint) + " " + workerName);
+                if (pointDate.isWeekend(i)){
+                    System.out.println(pointDate.getMonth()+ "월 " + i +"일 " + Day.getDayString(dayPoint) + " " + workerName);
+                }
+                if (!(pointDate.isWeekend(i))){
+                    System.out.println(pointDate.getMonth()+ "월 " + i +"일 " + Day.getDayString(dayPoint) + "(휴일) " + workerName);
+                }
                 if (holidayPermutation.getWorkers().size()-1 == holidayTurnPoint) {holidayTurnPoint = 0;}
                 dayPoint ++;
                 if (dayPoint == 7) {dayPoint = 0;}
