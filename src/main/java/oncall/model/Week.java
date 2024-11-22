@@ -36,4 +36,26 @@ public enum Week {
         }
         throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT.getMessage());
     }
+
+    public static Week from(Integer localDateTimeWeek) {
+        for (Week weekValue : values()) {
+            if (localDateTimeWeek == weekValue.localDateTimeWeek) {
+                return weekValue;
+            }
+        }
+        throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT.getMessage());
+    }
+
+    public static Week nextWeek(Week week) {
+        for (Week newtWeek : Week.values()) {
+            if (week.localDateTimeWeek == 7) {
+                return Week.from(1);
+            }
+        }
+        return Week.from(week.localDateTimeWeek + 1);
+    }
+
+    public boolean isDayOff() {
+        return this.localDateTimeWeek == 6 || this.localDateTimeWeek == 7;
+    }
 }

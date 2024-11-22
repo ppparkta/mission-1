@@ -1,9 +1,6 @@
 package oncall.utils;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import oncall.constant.ExceptionMessage;
 import oncall.constant.ScheduleConfig;
 import oncall.dto.ScheduleInputDto;

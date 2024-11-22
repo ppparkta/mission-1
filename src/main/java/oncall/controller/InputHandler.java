@@ -19,8 +19,7 @@ public class InputHandler {
     public ScheduleInputDto getSchedule() {
         while (true) {
             try {
-                System.out.print("비상 근무를 배정할 월과 시작 요일을 입력하세요> ");
-                String inputValue = inputView.getValue();
+                String inputValue = inputView.getValue("비상 근무를 배정할 월과 시작 요일을 입력하세요> ");
                 return InputParser.parseSchedule(inputValue);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -33,12 +32,10 @@ public class InputHandler {
             try {
                 List<WorkerInputDto> workerInputDtos = new ArrayList<>();
 
-                System.out.print("평일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
-                String inputValue = inputView.getValue();
+                String inputValue = inputView.getValue("평일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
                 workerInputDtos.add(InputParser.parseWorker(inputValue));
 
-                System.out.print("휴일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
-                inputValue = inputView.getValue();
+                inputValue = inputView.getValue("휴일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
                 workerInputDtos.add(InputParser.parseWorker(inputValue));
 
                 validateWorkerInput(workerInputDtos.get(WorkerConfig.WEEK.getValue()),

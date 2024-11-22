@@ -3,12 +3,13 @@ package oncall.controller;
 import java.util.List;
 import oncall.constant.WorkerConfig;
 import oncall.dto.ScheduleInputDto;
+import oncall.dto.ScheduleOutputDto;
 import oncall.dto.WorkerInputDto;
 import oncall.model.DayOffWorker;
 import oncall.model.Schedule;
 import oncall.model.WeekWorker;
-import oncall.model.Worker;
 import oncall.view.InputView;
+import oncall.view.OutputView;
 
 public class WorkController {
     private final InputHandler inputHandler;
@@ -26,6 +27,8 @@ public class WorkController {
         WeekWorker weekWorker = new WeekWorker(workersInputDtos.get(WorkerConfig.WEEK.getValue()).members());
         DayOffWorker dayOffWorker = new DayOffWorker(workersInputDtos.get(WorkerConfig.DAY_OFF.getValue()).members());
 
-        // 출력
+        List<ScheduleOutputDto> scheduleOutputDtos = schedule.generate(weekWorker, dayOffWorker);
+
+        OutputView.printScheduleDtos(scheduleOutputDtos);
     }
 }

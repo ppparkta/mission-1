@@ -1,12 +1,14 @@
 package oncall.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class DayOffWorker {
-    List<String> workers = new ArrayList<>();
-
-    public DayOffWorker(List<String> workers) {
-        this.workers = workers;
+public class DayOffWorker extends Worker {
+    public DayOffWorker(List<String> dayOffWorkers) {
+        for (String worker : dayOffWorkers) {
+            this.workers.add(worker);
+        }
+        currentIndex = 0;
     }
+
+
 }

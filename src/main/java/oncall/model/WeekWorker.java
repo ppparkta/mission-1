@@ -1,12 +1,12 @@
 package oncall.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class WeekWorker {
-    List<String> workers = new ArrayList<>();
-
-    public WeekWorker(List<String> workers) {
-        this.workers = workers;
+public class WeekWorker extends Worker {
+    public WeekWorker(List<String> weekWorkers) {
+        for (String worker : weekWorkers) {
+            this.workers.add(worker);
+        }
+        currentIndex = 0;
     }
 }
