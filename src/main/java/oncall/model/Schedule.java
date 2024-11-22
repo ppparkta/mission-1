@@ -57,18 +57,14 @@ public class Schedule {
     private String generateDayOffSchedule(DayOffWorker dayOffWorker, String yesterdayWorker, Week currentWeek,
                                           int currentDay,
                                           List<ScheduleOutputDto> scheduleOutputDtos) {
-        String todayWorker;
-        todayWorker = dayOffWorker.getWorkers().get(dayOffWorker.currentIndex);
+        String todayWorker = dayOffWorker.getWorkers().get(dayOffWorker.currentIndex);
 
         if (todayWorker.equals(yesterdayWorker)) {
             todayWorker = createDayOffSkipSchedule(dayOffWorker, currentWeek, currentDay, scheduleOutputDtos);
-            yesterdayWorker = todayWorker;
-            return yesterdayWorker;
+            return todayWorker;
         }
         createDayOffSchedule(dayOffWorker, todayWorker, currentWeek, currentDay, scheduleOutputDtos);
-        yesterdayWorker = todayWorker;
-
-        return yesterdayWorker;
+        return todayWorker;
     }
 
     private String generateWeekSchecule(WeekWorker weekWorker, DayOffWorker dayOffWorker, String yesterdayWorker,
