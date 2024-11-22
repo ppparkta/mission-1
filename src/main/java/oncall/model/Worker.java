@@ -21,24 +21,38 @@ public abstract class Worker {
         if (skip) {
             sumDay = 2;
         }
-        if (currentIndex != 0 && (currentIndex + sumDay) % workers.size() == 0) {
-            currentIndex = 0;
-            if (skip) {
-                skip = false;
-            }
+        if (isFullCircle(sumDay)) {
             return;
         }
-        if (currentIndex + sumDay < workers.size() - 1) {
-            currentIndex = currentIndex + sumDay;
-            if (skip) {
-                skip = false;
-            }
+        if (checkOutBound(sumDay)) {
             return;
         }
         currentIndex = (currentIndex + sumDay) % workers.size();
         if (skip) {
             skip = false;
         }
+    }
+
+    private boolean checkOutBound(int sumDay) {
+        if (currentIndex + sumDay < workers.size() - 1) {
+            currentIndex = currentIndex + sumDay;
+            if (skip) {
+                skip = false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isFullCircle(int sumDay) {
+        if (currentIndex != 0 && (currentIndex + sumDay) % workers.size() == 0) {
+            currentIndex = 0;
+            if (skip) {
+                skip = false;
+            }
+            return true;
+        }
+        return false;
     }
 
     public void minusCurrentIndex() {
