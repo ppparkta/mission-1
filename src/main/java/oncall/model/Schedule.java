@@ -74,13 +74,11 @@ public class Schedule {
                                         Week currentWeek,
                                         int currentDay, List<ScheduleOutputDto> scheduleOutputDtos) {
         if (HoliDay.isHoliday(startMonth.getMonth(), currentDay)) {
-            yesterdayWorker = generateSkipWeek(dayOffWorker, yesterdayWorker, currentWeek, currentDay,
+            return generateSkipWeek(dayOffWorker, yesterdayWorker, currentWeek, currentDay,
                     scheduleOutputDtos);
-            return yesterdayWorker;
         }
-        yesterdayWorker = generateNoSkipWeek(weekWorker, yesterdayWorker, currentWeek, currentDay,
+        return generateNoSkipWeek(weekWorker, yesterdayWorker, currentWeek, currentDay,
                 scheduleOutputDtos);
-        return yesterdayWorker;
     }
 
     private String generateSkipWeek(DayOffWorker dayOffWorker, String yesterdayWorker, Week currentWeek, int currentDay,
@@ -89,12 +87,10 @@ public class Schedule {
         if (todayWorker.equals(yesterdayWorker)) {
             todayWorker = createHolidaySkipSchedule(dayOffWorker, currentWeek, currentDay,
                     scheduleOutputDtos);
-            yesterdayWorker = todayWorker;
-            return yesterdayWorker;
+            return todayWorker;
         }
         createHolidaySchedule(dayOffWorker, todayWorker, currentWeek, currentDay, scheduleOutputDtos);
-        yesterdayWorker = todayWorker;
-        return yesterdayWorker;
+        return todayWorker;
     }
 
     private String generateNoSkipWeek(WeekWorker weekWorker, String yesterdayWorker, Week currentWeek, int currentDay,
@@ -102,12 +98,10 @@ public class Schedule {
         String todayWorker = weekWorker.getWorkers().get(weekWorker.currentIndex);
         if (todayWorker.equals(yesterdayWorker)) {
             todayWorker = createWeekStipSchedule(weekWorker, currentWeek, currentDay, scheduleOutputDtos);
-            yesterdayWorker = todayWorker;
-            return yesterdayWorker;
+            return todayWorker;
         }
         createWeekSchedule(weekWorker, todayWorker, currentWeek, currentDay, scheduleOutputDtos);
-        yesterdayWorker = todayWorker;
-        return yesterdayWorker;
+        return todayWorker;
     }
 
     private void createWeekSchedule(WeekWorker weekWorker, String todayWorker, Week currentWeek, int currentDay,
