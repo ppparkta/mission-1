@@ -1,7 +1,10 @@
 package oncall;
 
+import oncall.controller.WorkController;
+
 public class Application {
     public static void main(String[] args) {
-        // TODO: 프로그램 구현
+        WorkController workController = new WorkController();
+        workController.run();
     }
 }
