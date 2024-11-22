@@ -23,13 +23,19 @@ public abstract class Worker {
         }
         if (currentIndex != 0 && (currentIndex + sumDay) % workers.size() == 0) {
             currentIndex = 0;
-        } else {
-            if (currentIndex + sumDay < workers.size() - 1) {
-                currentIndex = currentIndex + sumDay;
-            } else {
-                currentIndex = (currentIndex + sumDay) % workers.size();
+            if (skip) {
+                skip = false;
             }
+            return;
         }
+        if (currentIndex + sumDay < workers.size() - 1) {
+            currentIndex = currentIndex + sumDay;
+            if (skip) {
+                skip = false;
+            }
+            return;
+        }
+        currentIndex = (currentIndex + sumDay) % workers.size();
         if (skip) {
             skip = false;
         }
@@ -38,8 +44,8 @@ public abstract class Worker {
     public void minusCurrentIndex() {
         if ((currentIndex - 1) < 0) {
             currentIndex = workers.size() - 1;
-        } else {
-            currentIndex = currentIndex - 1;
+            return;
         }
+        currentIndex = currentIndex - 1;
     }
 }
