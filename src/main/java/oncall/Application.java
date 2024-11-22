@@ -1,7 +1,13 @@
 package oncall;
 
+
+import oncall.util.InputManager;
+
 public class Application {
+
     public static void main(String[] args) {
-        // TODO: 프로그램 구현
+        InputManager inputManager = new InputManager();
+        inputManager.readStartDate();
+        inputManager.readWorkPermutations();
     }
 }
